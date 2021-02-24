@@ -17,7 +17,7 @@ public class PhoneManager {
 
     private static PhoneManager instance;
     private ArrayList<PhoneSetting> settings = new ArrayList<>();
-    private ArrayList<Application> application = new ArrayList<>();
+    private ArrayList<Application> applications = new ArrayList<>();
 
     private Application currentApplication;
     private boolean isLocked = true;
@@ -51,7 +51,7 @@ public class PhoneManager {
      * @return the applications list
      */
     public ArrayList<Application> getApplications() {
-        return application;
+        return applications;
     }
 
     /**
@@ -130,37 +130,26 @@ public class PhoneManager {
 
     /**
      * Get a setting thanks to it name
-     *
-     * @param name
-     * @return
+     * @param name setting name
+     * @return the setting
      */
     public PhoneSetting getSettings(String name) {
         for (PhoneSetting setting : settings) {
-            if (setting.getName().equals(name)) {
-                return setting;
-            }
+            if (setting.getName().equals(name)) return setting;
         }
 
         return null;
     }
 
     /**
-     * Draw the phone background
-     *
-     * @param resolution the screen resolution
+     * Get an application thanks to it name
+     * @param name appliaction name
+     * @return the application
      */
-    public void drawBackground(ScaledResolution resolution) {
-        Minecraft minecraft = Minecraft.getMinecraft();
-        PhoneManager phoneManager = PhoneManager.getInstance();
-        minecraft.getTextureManager().bindTexture(phoneManager.getBackground());
-
-        float scale = (phoneManager.getSettings("scale") != null) ? (float) (phoneManager.getSettings("scale").getValue()) : 0.5f;
-
-        GlStateManager.pushMatrix();
-        GlStateManager.scale(scale, scale, 1);
-        GlStateManager.enableAlpha();
-        Gui.drawModalRectWithCustomSizedTexture((int) (resolution.getScaledWidth() / scale) - 210, (int) (resolution.getScaledHeight() / scale) - 360, 0, 0, 200, 350, 200, 350);
-        GlStateManager.disableAlpha();
-        GlStateManager.popMatrix();
+    public Application getApplication(String name){
+        for(Application application : applications){
+            if(application.getName().equals(name)) return application;
+        }
+        return null;
     }
 }

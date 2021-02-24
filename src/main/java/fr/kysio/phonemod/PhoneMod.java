@@ -1,6 +1,8 @@
 package fr.kysio.phonemod;
 
 import fr.kysio.phonemod.api.PhoneManager;
+import fr.kysio.phonemod.api.applications.MenuApplication;
+import fr.kysio.phonemod.client.KeyBindings;
 import fr.kysio.phonemod.common.CommonProxy;
 import fr.kysio.phonemod.items.PhoneItems;
 import fr.kysio.phonemod.phone.PhoneEvents;
@@ -36,7 +38,9 @@ public class PhoneMod {
         proxy.init();
         if(event.getSide() == Side.CLIENT) {
             MinecraftForge.EVENT_BUS.register(new PhoneEvents());
+            KeyBindings.registerKeyBindings();
             PhoneManager phoneManager = new PhoneManager();
+            phoneManager.addApplication(new MenuApplication());
         }
     }
 }

@@ -11,4 +11,9 @@ public class MenuApplication extends Application {
     public void render(ScaledResolution resolution) {
 
     }
+
+    @Override
+    public void keyPressed() {
+
+    }
 }

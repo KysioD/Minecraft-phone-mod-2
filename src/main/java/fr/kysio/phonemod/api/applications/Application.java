@@ -30,4 +30,6 @@ public abstract class Application {
     }
 
     public abstract void render(ScaledResolution resolution);
+
+    public abstract void keyPressed();
 }
