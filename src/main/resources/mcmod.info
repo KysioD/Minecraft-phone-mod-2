@@ -1,0 +1,16 @@
+[
+{
+  "modid": "phone",
+  "name": "Phone mod",
+  "description": "A minecraft mod which add phones.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Kysio"],
+  "credits": "Kysio",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
