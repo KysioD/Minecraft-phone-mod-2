@@ -3,6 +3,7 @@ package fr.kysio.phonemod;
 import fr.kysio.phonemod.api.PhoneManager;
 import fr.kysio.phonemod.common.CommonProxy;
 import fr.kysio.phonemod.items.PhoneItems;
+import fr.kysio.phonemod.phone.PhoneEvents;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -34,6 +35,7 @@ public class PhoneMod {
     public void init(FMLInitializationEvent event) {
         proxy.init();
         if(event.getSide() == Side.CLIENT) {
+            MinecraftForge.EVENT_BUS.register(new PhoneEvents());
             PhoneManager phoneManager = new PhoneManager();
         }
     }
