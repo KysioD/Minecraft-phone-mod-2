@@ -11,10 +11,10 @@ import net.minecraft.entity.player.EntityPlayer;
         description = "Called when a player open a phone",
         examples = "on phone open:",
         patterns = "phone open[ed]",
-        accessors = "[script] player:player")
+        accessors = "[phone] player:player")
 public class OpenPhoneEvent extends ScriptEvent {
 
     public OpenPhoneEvent(EntityPlayer player) {
-        super(new ScriptAccessor(new TypePlayer(player), "[script] player"));
+        super(new ScriptAccessor(new TypePlayer(player), "[phone] player"));
     }
 }

@@ -5,6 +5,8 @@ import fr.kysio.phonemod.api.applications.MenuApplication;
 import fr.kysio.phonemod.client.KeyBindings;
 import fr.kysio.phonemod.common.CommonProxy;
 import fr.kysio.phonemod.items.PhoneItems;
+import fr.kysio.phonemod.network.PlayerCloseAppPacket;
+import fr.kysio.phonemod.network.PlayerOpenAppPacket;
 import fr.kysio.phonemod.network.PlayerOpenPhonePacket;
 import fr.kysio.phonemod.phone.PhoneEvents;
 import net.minecraftforge.common.MinecraftForge;
@@ -38,6 +40,8 @@ public class PhoneMod {
         network = NetworkRegistry.INSTANCE.newSimpleChannel("phonemod");
 
         network.registerMessage(PlayerOpenPhonePacket.Handler.class, PlayerOpenPhonePacket.class, 0, Side.SERVER);
+        network.registerMessage(PlayerOpenAppPacket.Handler.class, PlayerOpenAppPacket.class, 1, Side.SERVER);
+        network.registerMessage(PlayerCloseAppPacket.Handler.class, PlayerCloseAppPacket.class, 2, Side.SERVER);
 
         proxy.preInit(event.getSuggestedConfigurationFile());
         MinecraftForge.EVENT_BUS.register(PhoneItems.class);

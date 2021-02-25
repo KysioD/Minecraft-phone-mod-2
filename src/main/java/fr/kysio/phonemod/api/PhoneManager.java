@@ -2,6 +2,9 @@ package fr.kysio.phonemod.api;
 
 import fr.kysio.phonemod.PhoneMod;
 import fr.kysio.phonemod.api.applications.Application;
+import fr.kysio.phonemod.network.PlayerCloseAppPacket;
+import fr.kysio.phonemod.network.PlayerOpenAppPacket;
+import fr.kysio.phonemod.sqript.events.OpenPhoneEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -107,7 +110,9 @@ public class PhoneManager {
      * @param currentApplication application in use
      */
     public void setCurrentApplication(Application currentApplication) {
+        if(this.currentApplication != null) PhoneMod.network.sendToServer(new PlayerCloseAppPacket(this.currentApplication.getName(), Minecraft.getMinecraft().player));
         this.currentApplication = currentApplication;
+        PhoneMod.network.sendToServer(new PlayerOpenAppPacket(this.currentApplication.getName(), Minecraft.getMinecraft().player));
     }
 
     /**
