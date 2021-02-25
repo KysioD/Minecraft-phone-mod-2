@@ -5,6 +5,10 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.player.EntityPlayer;
+import org.lwjgl.Sys;
+
+import java.awt.*;
 
 public class PhoneGraphicUtil {
 
@@ -16,7 +20,7 @@ public class PhoneGraphicUtil {
      * @param text the text to draw
      * @param color the color of the text
      */
-    public static void drawString(ScaledResolution resolution, int x, int y, String text, int color){
+    public static void drawString(ScaledResolution resolution, int x, int y, int size, String text, int color){
         Minecraft minecraft = Minecraft.getMinecraft();
         FontRenderer fontRenderer = minecraft.fontRenderer;
 
@@ -28,6 +32,43 @@ public class PhoneGraphicUtil {
         GlStateManager.scale(scale, scale, 1);
         fontRenderer.drawString(text, screenX+x, screenY+y, color);
         GlStateManager.popMatrix();
+    }
+
+    public static void drawCenteredString(ScaledResolution resolution, int x, int y, int size, String text, int color){
+        Minecraft minecraft = Minecraft.getMinecraft();
+        FontRenderer fontRenderer = minecraft.fontRenderer;
+
+        float scale = getPhoneScale();
+        int screenX = (int) ((resolution.getScaledWidth() / (scale)) - 210)/size;
+        int screenY = (int) ((resolution.getScaledHeight() / (scale)) - 360)/size;
+
+        System.out.println("screen X : "+screenX);
+        System.out.println("screen Y : "+screenY);
+        System.out.println("scale : "+scale*size);
+
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(0, 0, 2);
+        GlStateManager.scale(scale*size, scale*size, 1);
+        fontRenderer.drawString(text, (screenX+(x/size)-(fontRenderer.getStringWidth(text)/2)), screenY+(y/size), color);
+        GlStateManager.popMatrix();
+    }
+
+    /**
+     * Draw the phone top bar
+     * @param resolution the screen resolution
+     */
+    public static void drawTopBar(ScaledResolution resolution){
+        EntityPlayer player = Minecraft.getMinecraft().player;
+        float ticks = player.world.getWorldTime();
+        int hours = (int)((Math.floor(ticks / 1000.0D) + 6.0D) % 24.0D);
+        int minutes = (int)Math.floor(ticks % 1000L / 1000.0D * 60.0D);
+        String hour_text = hours < 10 ? "0"+hours : hours+"";
+        String minute_text = minutes < 10 ? "0"+minutes : minutes+"";
+
+        // Top bar
+        PhoneGraphicUtil.drawString(resolution, 21, 42, 1, "unkonwn", Color.white.getRGB()); // Mobile operator
+        PhoneGraphicUtil.drawString(resolution, 152, 42, 1, "100%", Color.white.getRGB()); // Battery
+        PhoneGraphicUtil.drawCenteredString(resolution, 100, 42, 1, hour_text+":"+minute_text, Color.white.getRGB());
     }
 
     /**

@@ -23,6 +23,7 @@ import java.awt.*;
 public class PhoneEvents {
 
     private boolean opened = false;
+
     @SubscribeEvent
     public void onRenderPre(RenderGameOverlayEvent.Pre event) {
         Minecraft minecraft = Minecraft.getMinecraft();
@@ -31,7 +32,7 @@ public class PhoneEvents {
 
         if (player.getHeldItem(EnumHand.MAIN_HAND).getItem() == PhoneItems.PHONE || player.getHeldItem(EnumHand.OFF_HAND).getItem() == PhoneItems.PHONE) {
             PhoneManager phoneManager = PhoneManager.getInstance();
-            if(!opened){
+            if (!opened) {
                 opened = true;
                 PhoneMod.network.sendToServer(new PlayerOpenPhonePacket(player));
             }
@@ -40,30 +41,44 @@ public class PhoneEvents {
             if (!phoneManager.isLocked()) {
                 Application application = phoneManager.getCurrentApplication();
                 application.render(resolution);
-            }else{
-                PhoneGraphicUtil.drawString(resolution, 10, 10, "test", Color.white.getRGB());
+            } else {
+                float ticks = player.world.getWorldTime();
+                int hours = (int)((Math.floor(ticks / 1000.0D) + 6.0D) % 24.0D);
+                int minutes = (int)Math.floor(ticks % 1000L / 1000.0D * 60.0D);
+                String hour_text = hours < 10 ? "0"+hours : hours+"";
+                String minute_text = minutes < 10 ? "0"+minutes : minutes+"";
+
+                //Top bar
+                PhoneGraphicUtil.drawTopBar(resolution);
+
+                // Hour
+                PhoneGraphicUtil.drawCenteredString(resolution, 100, 80, 3, hour_text, Color.white.getRGB());
+                PhoneGraphicUtil.drawCenteredString(resolution, 100, 102,  3, minute_text, Color.white.getRGB());
+
+                // Unlock text
+                PhoneGraphicUtil.drawCenteredString(resolution, 100, 250, 1, "press "+KeyBindings.UNLOCK_KEY.getDisplayName()+" to unlock", Color.white.getRGB());
             }
-        }else{
+        } else {
             opened = false;
         }
     }
 
     @SubscribeEvent
-    public void onKeyPressed(InputEvent.KeyInputEvent event){
+    public void onKeyPressed(InputEvent.KeyInputEvent event) {
         Minecraft minecraft = Minecraft.getMinecraft();
         EntityPlayer player = minecraft.player;
         if (player.getHeldItem(EnumHand.MAIN_HAND).getItem() == PhoneItems.PHONE || player.getHeldItem(EnumHand.OFF_HAND).getItem() == PhoneItems.PHONE) {
             PhoneManager phoneManager = PhoneManager.getInstance();
-            if(!phoneManager.isLocked()){
+            if (!phoneManager.isLocked()) {
                 Application application = phoneManager.getCurrentApplication();
                 application.keyPressed();
 
-                if(application.getName() == "menu" && KeyBindings.BACK_KEY.isPressed()) phoneManager.setLocked(true);
-            }else{
-                if(KeyBindings.UNLOCK_KEY.isPressed()){
+                if (application.getName() == "menu" && KeyBindings.BACK_KEY.isPressed()) phoneManager.setLocked(true);
+            } else {
+                if (KeyBindings.UNLOCK_KEY.isPressed()) {
                     System.out.println("UNLOCK");
                     Application menu = phoneManager.getApplication("menu");
-                    if(menu != null){
+                    if (menu != null) {
                         phoneManager.setCurrentApplication(menu);
                         phoneManager.setLocked(false);
                     }
