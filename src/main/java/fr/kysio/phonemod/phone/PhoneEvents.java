@@ -1,10 +1,12 @@
 package fr.kysio.phonemod.phone;
 
+import fr.kysio.phonemod.PhoneMod;
 import fr.kysio.phonemod.api.PhoneGraphicUtil;
 import fr.kysio.phonemod.api.PhoneManager;
 import fr.kysio.phonemod.api.applications.Application;
 import fr.kysio.phonemod.client.KeyBindings;
 import fr.kysio.phonemod.items.PhoneItems;
+import fr.kysio.phonemod.network.PlayerOpenPhonePacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,15 +22,19 @@ import java.awt.*;
 @SideOnly(Side.CLIENT)
 public class PhoneEvents {
 
+    private boolean opened = false;
     @SubscribeEvent
     public void onRenderPre(RenderGameOverlayEvent.Pre event) {
         Minecraft minecraft = Minecraft.getMinecraft();
         EntityPlayer player = minecraft.player;
         ScaledResolution resolution = event.getResolution();
 
-
         if (player.getHeldItem(EnumHand.MAIN_HAND).getItem() == PhoneItems.PHONE || player.getHeldItem(EnumHand.OFF_HAND).getItem() == PhoneItems.PHONE) {
             PhoneManager phoneManager = PhoneManager.getInstance();
+            if(!opened){
+                opened = true;
+                PhoneMod.network.sendToServer(new PlayerOpenPhonePacket(player));
+            }
 
             PhoneGraphicUtil.drawBackground(resolution);
             if (!phoneManager.isLocked()) {
@@ -37,6 +43,8 @@ public class PhoneEvents {
             }else{
                 PhoneGraphicUtil.drawString(resolution, 10, 10, "test", Color.white.getRGB());
             }
+        }else{
+            opened = false;
         }
     }
 

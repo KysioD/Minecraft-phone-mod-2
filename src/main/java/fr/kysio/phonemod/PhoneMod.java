@@ -5,16 +5,19 @@ import fr.kysio.phonemod.api.applications.MenuApplication;
 import fr.kysio.phonemod.client.KeyBindings;
 import fr.kysio.phonemod.common.CommonProxy;
 import fr.kysio.phonemod.items.PhoneItems;
+import fr.kysio.phonemod.network.PlayerOpenPhonePacket;
 import fr.kysio.phonemod.phone.PhoneEvents;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = "phonemod")
+@Mod(modid = "phonemod", name = "phonemod", version="1.0", dependencies = "required-before:sqript")
 public class PhoneMod {
     public static final String MODID = "phonemod";
     @Mod.Instance(PhoneMod.MODID)
@@ -25,9 +28,17 @@ public class PhoneMod {
 
     public static Logger logger;
 
+
+    public static SimpleNetworkWrapper network;
+
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
+
+        network = NetworkRegistry.INSTANCE.newSimpleChannel("phonemod");
+
+        network.registerMessage(PlayerOpenPhonePacket.Handler.class, PlayerOpenPhonePacket.class, 0, Side.SERVER);
+
         proxy.preInit(event.getSuggestedConfigurationFile());
         MinecraftForge.EVENT_BUS.register(PhoneItems.class);
         MinecraftForge.EVENT_BUS.register(RegistringHandler.class);
@@ -43,4 +54,5 @@ public class PhoneMod {
             phoneManager.addApplication(new MenuApplication());
         }
     }
+
 }
