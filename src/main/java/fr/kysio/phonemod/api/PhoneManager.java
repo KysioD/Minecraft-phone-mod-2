@@ -112,6 +112,7 @@ public class PhoneManager {
     public void setCurrentApplication(Application currentApplication) {
         if(this.currentApplication != null) PhoneMod.network.sendToServer(new PlayerCloseAppPacket(this.currentApplication.getName(), Minecraft.getMinecraft().player));
         this.currentApplication = currentApplication;
+
         PhoneMod.network.sendToServer(new PlayerOpenAppPacket(this.currentApplication.getName(), Minecraft.getMinecraft().player));
     }
 

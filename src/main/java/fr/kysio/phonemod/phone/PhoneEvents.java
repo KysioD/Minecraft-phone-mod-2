@@ -25,7 +25,7 @@ public class PhoneEvents {
     private boolean opened = false;
 
     @SubscribeEvent
-    public void onRenderPre(RenderGameOverlayEvent.Pre event) {
+    public void onRenderPre(RenderGameOverlayEvent.Post event) {
         Minecraft minecraft = Minecraft.getMinecraft();
         EntityPlayer player = minecraft.player;
         ScaledResolution resolution = event.getResolution();

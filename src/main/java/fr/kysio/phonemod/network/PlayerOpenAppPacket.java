@@ -17,8 +17,6 @@ public class PlayerOpenAppPacket implements IMessage {
 
     public String name;
     public String player;
-
-
     public PlayerOpenAppPacket(){
 
     }
