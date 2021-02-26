@@ -30,7 +30,7 @@ public class PhoneGraphicUtil {
 
         GlStateManager.pushMatrix();
         GlStateManager.scale(scale, scale, 1);
-        fontRenderer.drawString(text, screenX+x, screenY+y, color);
+        fontRenderer.drawString(text, screenX+(x/size), screenY+(y/size), color);
         GlStateManager.popMatrix();
     }
 

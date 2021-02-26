@@ -135,6 +135,8 @@ public abstract class Application {
             if (nextButton != null) nextButton.setSelected(true);
             selectedWidget = nextButton;
 
+        }else if(KeyBindings.UNLOCK_KEY.isPressed()){
+            if(selectedWidget != null) selectedWidget.onUse();
         }
     }
 

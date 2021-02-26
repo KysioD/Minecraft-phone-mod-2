@@ -9,37 +9,37 @@ import java.awt.*;
 public class MenuApplication extends Application {
     public MenuApplication() {
         super("menu", "menu appliaction", null,
-                new WidgetButton(10, 20, 30, 30, 1, Color.darkGray.getRGB(), Color.white.getRGB(), Color.gray.getRGB()) {
+                new WidgetButton(10, 20, 30, 30, 1, Color.darkGray.getRGB(), Color.white.getRGB(), Color.gray.getRGB(), "test") {
                     @Override
                     public void onUse() {
 
                     }
                 },
-                new WidgetButton(50, 20, 30, 30, 1, Color.darkGray.getRGB(), Color.white.getRGB(), Color.gray.getRGB()) {
+                new WidgetButton(50, 20, 30, 30, 1, Color.darkGray.getRGB(), Color.white.getRGB(), Color.gray.getRGB(), "test1") {
                     @Override
                     public void onUse() {
 
                     }
                 },
-                new WidgetButton(90, 20, 30, 30, 1, Color.darkGray.getRGB(), Color.white.getRGB(), Color.gray.getRGB()) {
+                new WidgetButton(90, 20, 30, 30, 1, Color.darkGray.getRGB(), Color.white.getRGB(), Color.gray.getRGB(), "test2") {
                     @Override
                     public void onUse() {
 
                     }
                 },
-                new WidgetButton(10, 60, 30, 30, 1, Color.darkGray.getRGB(), Color.white.getRGB(), Color.gray.getRGB()) {
+                new WidgetButton(10, 60, 30, 30, 1, Color.darkGray.getRGB(), Color.white.getRGB(), Color.gray.getRGB(), "test3") {
                     @Override
                     public void onUse() {
 
                     }
                 },
-                new WidgetButton(50, 60, 30, 30, 1, Color.darkGray.getRGB(), Color.white.getRGB(), Color.gray.getRGB()) {
+                new WidgetButton(50, 60, 30, 30, 1, Color.darkGray.getRGB(), Color.white.getRGB(), Color.gray.getRGB(), "test4") {
                     @Override
                     public void onUse() {
 
                     }
                 },
-                new WidgetButton(90, 60, 30, 30, 1, Color.darkGray.getRGB(), Color.white.getRGB(), Color.gray.getRGB()) {
+                new WidgetButton(90, 60, 30, 30, 1, Color.darkGray.getRGB(), Color.white.getRGB(), Color.gray.getRGB(), "test5") {
                     @Override
                     public void onUse() {
 
