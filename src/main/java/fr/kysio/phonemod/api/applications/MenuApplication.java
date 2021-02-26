@@ -8,12 +8,43 @@ import java.awt.*;
 
 public class MenuApplication extends Application {
     public MenuApplication() {
-        super("menu", "menu appliaction", null, new WidgetButton(20, 20, 100, 30, 1, Color.darkGray.getRGB(), Color.white.getRGB(), Color.gray.getRGB()) {
-            @Override
-            public void onUse() {
+        super("menu", "menu appliaction", null,
+                new WidgetButton(10, 20, 30, 30, 1, Color.darkGray.getRGB(), Color.white.getRGB(), Color.gray.getRGB()) {
+                    @Override
+                    public void onUse() {
 
-            }
-        });
+                    }
+                },
+                new WidgetButton(50, 20, 30, 30, 1, Color.darkGray.getRGB(), Color.white.getRGB(), Color.gray.getRGB()) {
+                    @Override
+                    public void onUse() {
+
+                    }
+                },
+                new WidgetButton(90, 20, 30, 30, 1, Color.darkGray.getRGB(), Color.white.getRGB(), Color.gray.getRGB()) {
+                    @Override
+                    public void onUse() {
+
+                    }
+                },
+                new WidgetButton(10, 60, 30, 30, 1, Color.darkGray.getRGB(), Color.white.getRGB(), Color.gray.getRGB()) {
+                    @Override
+                    public void onUse() {
+
+                    }
+                },
+                new WidgetButton(50, 60, 30, 30, 1, Color.darkGray.getRGB(), Color.white.getRGB(), Color.gray.getRGB()) {
+                    @Override
+                    public void onUse() {
+
+                    }
+                },
+                new WidgetButton(90, 60, 30, 30, 1, Color.darkGray.getRGB(), Color.white.getRGB(), Color.gray.getRGB()) {
+                    @Override
+                    public void onUse() {
+
+                    }
+                });
     }
 
     @Override
@@ -25,6 +56,6 @@ public class MenuApplication extends Application {
 
     @Override
     public void keyPressed() {
-
+        super.keyPressed();
     }
 }
