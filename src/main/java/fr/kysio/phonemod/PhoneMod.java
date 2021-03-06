@@ -1,7 +1,7 @@
 package fr.kysio.phonemod;
 
 import fr.kysio.phonemod.api.PhoneManager;
-import fr.kysio.phonemod.api.applications.MenuApplication;
+import fr.kysio.phonemod.phone.applications.MenuApplication;
 import fr.kysio.phonemod.client.KeyBindings;
 import fr.kysio.phonemod.common.CommonProxy;
 import fr.kysio.phonemod.items.PhoneItems;
@@ -9,6 +9,7 @@ import fr.kysio.phonemod.network.PlayerCloseAppPacket;
 import fr.kysio.phonemod.network.PlayerOpenAppPacket;
 import fr.kysio.phonemod.network.PlayerOpenPhonePacket;
 import fr.kysio.phonemod.phone.PhoneEvents;
+import fr.kysio.phonemod.phone.applications.SettingsApplication;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -55,6 +56,36 @@ public class PhoneMod {
             MinecraftForge.EVENT_BUS.register(new PhoneEvents());
             KeyBindings.registerKeyBindings();
             PhoneManager phoneManager = new PhoneManager();
+            phoneManager.addApplication(new SettingsApplication());
+            phoneManager.addApplication(new SettingsApplication());
+            phoneManager.addApplication(new SettingsApplication());
+            phoneManager.addApplication(new SettingsApplication());
+
+            phoneManager.addApplication(new SettingsApplication());
+            phoneManager.addApplication(new SettingsApplication());
+            phoneManager.addApplication(new SettingsApplication());
+            phoneManager.addApplication(new SettingsApplication());
+
+            phoneManager.addApplication(new SettingsApplication());
+            phoneManager.addApplication(new SettingsApplication());
+            phoneManager.addApplication(new SettingsApplication());
+            phoneManager.addApplication(new SettingsApplication());
+
+            phoneManager.addApplication(new SettingsApplication());
+            phoneManager.addApplication(new SettingsApplication());
+            phoneManager.addApplication(new SettingsApplication());
+            phoneManager.addApplication(new SettingsApplication());
+
+            phoneManager.addApplication(new SettingsApplication());
+            phoneManager.addApplication(new SettingsApplication());
+            phoneManager.addApplication(new SettingsApplication());
+            phoneManager.addApplication(new SettingsApplication());
+
+            phoneManager.addApplication(new SettingsApplication());
+            phoneManager.addApplication(new SettingsApplication());
+            phoneManager.addApplication(new SettingsApplication());
+            phoneManager.addApplication(new SettingsApplication());
+
             phoneManager.addApplication(new MenuApplication());
         }
     }

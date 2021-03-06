@@ -42,10 +42,6 @@ public class PhoneGraphicUtil {
         int screenX = (int) ((resolution.getScaledWidth() / (scale)) - 210)/size;
         int screenY = (int) ((resolution.getScaledHeight() / (scale)) - 360)/size;
 
-        System.out.println("screen X : "+screenX);
-        System.out.println("screen Y : "+screenY);
-        System.out.println("scale : "+scale*size);
-
         GlStateManager.pushMatrix();
         GlStateManager.translate(0, 0, 2);
         GlStateManager.scale(scale*size, scale*size, 1);
