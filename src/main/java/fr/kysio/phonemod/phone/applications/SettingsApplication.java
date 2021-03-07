@@ -11,8 +11,8 @@ import net.minecraft.util.ResourceLocation;
 import javax.annotation.Nullable;
 
 public class SettingsApplication extends Application {
-    public SettingsApplication() {
-        super("settings", "The phone settings", new ResourceLocation(PhoneMod.MODID, "textures/phone/settings.png"));
+    public SettingsApplication(PhoneManager phoneManager) {
+        super(phoneManager, "settings", "The phone settings", new ResourceLocation(PhoneMod.MODID, "textures/phone/settings.png"));
     }
 
     @Override
@@ -23,8 +23,8 @@ public class SettingsApplication extends Application {
     @Override
     public void keyPressed() {
         if(KeyBindings.BACK_KEY.isPressed()){
-            Application application = PhoneManager.getInstance().getApplication("menu");
-            if(application != null) PhoneManager.getInstance().setCurrentApplication(application);
+            Application application = getPhoneManager().getApplication("menu");
+            if(application != null) getPhoneManager().setCurrentApplication(application);
         }
         super.keyPressed();
     }

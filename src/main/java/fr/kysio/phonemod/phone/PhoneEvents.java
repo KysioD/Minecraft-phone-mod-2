@@ -10,19 +10,24 @@ import fr.kysio.phonemod.network.PlayerOpenPhonePacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.Sys;
 
 import java.awt.*;
+import java.util.HashMap;
 
 @SideOnly(Side.CLIENT)
 public class PhoneEvents {
 
     private boolean opened = false;
+
+    private HashMap<ItemStack, PhoneManager> phoneManagers = new HashMap<>();
 
     @SubscribeEvent
     public void onRenderPre(RenderGameOverlayEvent.Post event) {
@@ -31,13 +36,25 @@ public class PhoneEvents {
         ScaledResolution resolution = event.getResolution();
 
         if (player.getHeldItem(EnumHand.MAIN_HAND).getItem() == PhoneItems.PHONE || player.getHeldItem(EnumHand.OFF_HAND).getItem() == PhoneItems.PHONE) {
-            PhoneManager phoneManager = PhoneManager.getInstance();
+            ItemStack itemInHand = player.getHeldItem(EnumHand.MAIN_HAND);
+            if(itemInHand.getItem() != PhoneItems.PHONE){
+                itemInHand = Minecraft.getMinecraft().player.getHeldItem(EnumHand.OFF_HAND);
+            }
+            PhoneManager phoneManager = null;
+            if(phoneManagers.containsKey(itemInHand)){
+                phoneManager = phoneManagers.get(itemInHand);
+            }else{
+                phoneManager = new PhoneManager(itemInHand);
+                phoneManagers.put(itemInHand, phoneManager);
+            }
+
+
             if (!opened) {
                 opened = true;
                 PhoneMod.network.sendToServer(new PlayerOpenPhonePacket(player));
             }
 
-            PhoneGraphicUtil.drawBackground(resolution);
+            PhoneGraphicUtil.drawBackground(phoneManager, resolution);
             if (!phoneManager.isLocked()) {
                 Application application = phoneManager.getCurrentApplication();
                 application.render(resolution);
@@ -49,14 +66,14 @@ public class PhoneEvents {
                 String minute_text = minutes < 10 ? "0"+minutes : minutes+"";
 
                 //Top bar
-                PhoneGraphicUtil.drawTopBar(resolution);
+                PhoneGraphicUtil.drawTopBar(phoneManager, resolution);
 
                 // Hour
-                PhoneGraphicUtil.drawCenteredString(resolution, 100, 80, 3, hour_text, Color.white.getRGB());
-                PhoneGraphicUtil.drawCenteredString(resolution, 100, 102,  3, minute_text, Color.white.getRGB());
+                PhoneGraphicUtil.drawCenteredString(phoneManager, resolution, 100, 80, 3, hour_text, Color.white.getRGB());
+                PhoneGraphicUtil.drawCenteredString(phoneManager, resolution, 100, 102,  3, minute_text, Color.white.getRGB());
 
                 // Unlock text
-                PhoneGraphicUtil.drawCenteredString(resolution, 100, 250, 1, "press "+KeyBindings.UNLOCK_KEY.getDisplayName()+" to unlock", Color.white.getRGB());
+                PhoneGraphicUtil.drawCenteredString(phoneManager, resolution, 100, 250, 1, "press "+KeyBindings.UNLOCK_KEY.getDisplayName()+" to unlock", Color.white.getRGB());
             }
         } else {
             opened = false;
@@ -68,7 +85,17 @@ public class PhoneEvents {
         Minecraft minecraft = Minecraft.getMinecraft();
         EntityPlayer player = minecraft.player;
         if (player.getHeldItem(EnumHand.MAIN_HAND).getItem() == PhoneItems.PHONE || player.getHeldItem(EnumHand.OFF_HAND).getItem() == PhoneItems.PHONE) {
-            PhoneManager phoneManager = PhoneManager.getInstance();
+            ItemStack itemInHand = Minecraft.getMinecraft().player.getHeldItem(EnumHand.MAIN_HAND);
+            if(itemInHand.getItem() != PhoneItems.PHONE){
+                itemInHand = Minecraft.getMinecraft().player.getHeldItem(EnumHand.OFF_HAND);
+            }
+            PhoneManager phoneManager = null;
+            if(phoneManagers.containsKey(itemInHand)){
+                phoneManager = phoneManagers.get(itemInHand);
+            }else{
+                phoneManager = new PhoneManager(itemInHand);
+                phoneManagers.put(itemInHand, phoneManager);
+            }
             if (!phoneManager.isLocked()) {
                 Application application = phoneManager.getCurrentApplication();
                 application.keyPressed();
@@ -81,6 +108,7 @@ public class PhoneEvents {
                     if (menu != null) {
                         phoneManager.setCurrentApplication(menu);
                         phoneManager.setLocked(false);
+                        System.out.println("app menu opened");
                     }
                 }
             }

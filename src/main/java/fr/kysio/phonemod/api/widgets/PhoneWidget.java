@@ -1,5 +1,6 @@
 package fr.kysio.phonemod.api.widgets;
 
+import fr.kysio.phonemod.api.PhoneManager;
 import net.minecraft.client.gui.ScaledResolution;
 
 public abstract class PhoneWidget {
@@ -10,13 +11,15 @@ public abstract class PhoneWidget {
     private int height;
     private float scale;
     private boolean isSelected;
+    private PhoneManager phoneManager;
 
-    public PhoneWidget(int x, int y, int width, int height, float scale){
+    public PhoneWidget(PhoneManager phoneManager, int x, int y, int width, int height, float scale){
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.scale = scale;
+        this.phoneManager = phoneManager;
     }
 
     public abstract void onRender(ScaledResolution scaledResolution);
@@ -69,5 +72,13 @@ public abstract class PhoneWidget {
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    public PhoneManager getPhoneManager() {
+        return phoneManager;
+    }
+
+    public void setPhoneManager(PhoneManager phoneManager) {
+        this.phoneManager = phoneManager;
     }
 }

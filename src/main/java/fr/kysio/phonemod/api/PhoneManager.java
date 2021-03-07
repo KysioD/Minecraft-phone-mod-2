@@ -4,50 +4,52 @@ import fr.kysio.phonemod.PhoneMod;
 import fr.kysio.phonemod.api.applications.Application;
 import fr.kysio.phonemod.network.PlayerCloseAppPacket;
 import fr.kysio.phonemod.network.PlayerOpenAppPacket;
+import fr.kysio.phonemod.phone.applications.MenuApplication;
+import fr.kysio.phonemod.phone.applications.SettingsApplication;
 import fr.kysio.phonemod.sqript.events.OpenPhoneEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.Sys;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 @SideOnly(Side.CLIENT)
 public class PhoneManager {
-
-    private static PhoneManager instance;
-    private ArrayList<PhoneSetting> settings = new ArrayList<>();
     private ArrayList<Application> applications = new ArrayList<>();
 
-    private Application currentApplication;
-    private boolean isLocked = true;
+    private ItemStack phone;
 
     private ResourceLocation background = new ResourceLocation(PhoneMod.MODID, "textures/phone/phone.png");
 
-    public PhoneManager() {
-        instance = this;
-        settings.add(new PhoneSetting("scale", "phone scale", 0.5f)); //float value
-    }
+    public PhoneManager(ItemStack phone) {
+        this.phone = phone;
 
-    /**
-     * Get the instance of phone manager
-     */
-    public static PhoneManager getInstance() {
-        return instance;
-    }
+        this.addApplication(new SettingsApplication(this));
 
-    /**
-     * Get the settings list
-     *
-     * @return the settings list
-     */
-    public ArrayList<PhoneSetting> getSettings() {
-        return settings;
-    }
+        this.addApplication(new MenuApplication(this));
 
+        NBTTagCompound nbt;
+        if(phone.hasTagCompound()){
+            nbt = phone.getTagCompound();
+        }else{
+            nbt = new NBTTagCompound();
+            nbt.setFloat("s_scale", 0.5f); //s_settingName -> a phone setting
+            nbt.setString("current_app", "");
+            nbt.setBoolean("locked", true);
+            nbt.setString("s_sim", "");
+        }
+
+        phone.setTagCompound(nbt);
+    }
     /**
      * Get the applications list
      *
@@ -83,7 +85,8 @@ public class PhoneManager {
      * @return current use application
      */
     public Application getCurrentApplication() {
-        return currentApplication;
+        if(!phone.hasTagCompound()) return null;
+        return getApplication(phone.getTagCompound().getString("current_app"));
     }
 
     /**
@@ -92,7 +95,8 @@ public class PhoneManager {
      * @return if phone is locked
      */
     public boolean isLocked() {
-        return isLocked;
+        if(!phone.hasTagCompound()) return true;
+        return phone.getTagCompound().getBoolean("locked");
     }
 
     /**
@@ -101,7 +105,11 @@ public class PhoneManager {
      * @param locked if phone is locked
      */
     public void setLocked(boolean locked) {
-        isLocked = locked;
+       if(phone.hasTagCompound()){
+           NBTTagCompound nbt = phone.getTagCompound();
+           nbt.setBoolean("locked", locked);
+           phone.setTagCompound(nbt);
+       }
     }
 
     /**
@@ -110,10 +118,16 @@ public class PhoneManager {
      * @param currentApplication application in use
      */
     public void setCurrentApplication(Application currentApplication) {
-        if(this.currentApplication != null) PhoneMod.network.sendToServer(new PlayerCloseAppPacket(this.currentApplication.getName(), Minecraft.getMinecraft().player));
-        this.currentApplication = currentApplication;
+        if(getCurrentApplication() != null) PhoneMod.network.sendToServer(new PlayerCloseAppPacket(this.getCurrentApplication().getName(), Minecraft.getMinecraft().player));
+        System.out.println("phone has compound : "+phone.hasTagCompound());
+        if(phone.hasTagCompound()){
+            NBTTagCompound nbt = phone.getTagCompound();
+            System.out.println("set app name "+currentApplication.getName());
+            nbt.setString("current_app", currentApplication.getName());
+            phone.setTagCompound(nbt);
+        }
 
-        PhoneMod.network.sendToServer(new PlayerOpenAppPacket(this.currentApplication.getName(), Minecraft.getMinecraft().player));
+        PhoneMod.network.sendToServer(new PlayerOpenAppPacket(this.getCurrentApplication().getName(), Minecraft.getMinecraft().player));
     }
 
     /**
@@ -135,19 +149,6 @@ public class PhoneManager {
     }
 
     /**
-     * Get a setting thanks to it name
-     * @param name setting name
-     * @return the setting
-     */
-    public PhoneSetting getSettings(String name) {
-        for (PhoneSetting setting : settings) {
-            if (setting.getName().equals(name)) return setting;
-        }
-
-        return null;
-    }
-
-    /**
      * Get an application thanks to it name
      * @param name appliaction name
      * @return the application
@@ -157,5 +158,13 @@ public class PhoneManager {
             if(application.getName().equals(name)) return application;
         }
         return null;
+    }
+
+    public ItemStack getPhone() {
+        return phone;
+    }
+
+    public void setPhone(ItemStack phone) {
+        this.phone = phone;
     }
 }

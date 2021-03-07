@@ -1,5 +1,6 @@
 package fr.kysio.phonemod.api.applications;
 
+import fr.kysio.phonemod.api.PhoneManager;
 import fr.kysio.phonemod.api.widgets.PhoneWidget;
 import fr.kysio.phonemod.api.widgets.WidgetButton;
 import fr.kysio.phonemod.client.KeyBindings;
@@ -15,15 +16,17 @@ public abstract class Application {
     private final String description;
     private final ResourceLocation icon;
     private PhoneWidget[] phoneWidgets;
+    private PhoneManager phoneManager;
 
     //Widgets gestion
     private PhoneWidget selectedWidget;
 
-    public Application(String name, String description, @Nullable ResourceLocation icon, PhoneWidget... phoneWidgets) {
+    public Application(PhoneManager phoneManager, String name, String description, @Nullable ResourceLocation icon, PhoneWidget... phoneWidgets) {
         this.name = name;
         this.description = description;
         this.icon = icon;
         this.phoneWidgets = phoneWidgets;
+        this.phoneManager = phoneManager;
     }
 
     public String getName() {
@@ -146,5 +149,21 @@ public abstract class Application {
 
     public void setPhoneWidgets(PhoneWidget[] phoneWidgets) {
         this.phoneWidgets = phoneWidgets;
+    }
+
+    public PhoneManager getPhoneManager() {
+        return phoneManager;
+    }
+
+    public void setPhoneManager(PhoneManager phoneManager) {
+        this.phoneManager = phoneManager;
+    }
+
+    public PhoneWidget getSelectedWidget() {
+        return selectedWidget;
+    }
+
+    public void setSelectedWidget(PhoneWidget selectedWidget) {
+        this.selectedWidget = selectedWidget;
     }
 }

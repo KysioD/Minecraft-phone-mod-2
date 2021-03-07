@@ -17,8 +17,8 @@ public abstract class WidgetButton extends PhoneWidget{
     public int selectedColor;
     public String text;
 
-    public WidgetButton(int x, int y, int width, int height, float scale, int backgroundColor, int foregroundColor, int selectedColor, String text) {
-        super(x, y, width, height, scale);
+    public WidgetButton(PhoneManager phoneManager, int x, int y, int width, int height, float scale, int backgroundColor, int foregroundColor, int selectedColor, String text) {
+        super(phoneManager, x, y, width, height, scale);
         this.backgroundColor = backgroundColor;
         this.foregroundColor = foregroundColor;
         this.selectedColor = selectedColor;
@@ -27,7 +27,7 @@ public abstract class WidgetButton extends PhoneWidget{
 
     @Override
     public void onRender(ScaledResolution resolution) {
-        float phoneScale = PhoneGraphicUtil.getPhoneScale();
+        float phoneScale = PhoneGraphicUtil.getPhoneScale(getPhoneManager());
         int screenX = (int) (((resolution.getScaledWidth() / (phoneScale)) - 210)/getScale());
         int screenY = (int) (((resolution.getScaledHeight() / (phoneScale)) - 360)/getScale());
 
@@ -38,7 +38,7 @@ public abstract class WidgetButton extends PhoneWidget{
         Gui.drawRect(screenX+(int)(getX()/getScale()), screenY+(int)(getY()/getScale()), screenX+(int)((getX()+getWidth())/getScale()), screenY+(int)((getY()+getHeight())/getScale()), backgroundColor);
         GlStateManager.popMatrix();
 
-        PhoneGraphicUtil.drawCenteredString(resolution, getX()+(getWidth()/2),getY()+(getHeight()/2) - 2, 1, text, foregroundColor);
+        PhoneGraphicUtil.drawCenteredString(getPhoneManager(), resolution, getX()+(getWidth()/2),getY()+(getHeight()/2) - 2, 1, text, foregroundColor);
     }
 
     @Override

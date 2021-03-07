@@ -12,18 +12,18 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class MenuApplication extends Application {
-    public MenuApplication() {
-        super("menu", "menu application", null);
+    public MenuApplication(PhoneManager manager) {
+        super(manager, "menu", "menu application", null);
         ArrayList<PhoneWidget> phoneWidgets = new ArrayList<>();
+        //4x6 menu
         int line = 0;
         int column = 0;
-        System.out.println("Applications : "+PhoneManager.getInstance().getApplications()+" length : "+PhoneManager.getInstance().getApplications().size());
-        for(Application application : PhoneManager.getInstance().getApplications()){
+        for(Application application : getPhoneManager().getApplications()){
             if(application.getIcon() != null){
-                WidgetButtonImage widgetButtonImage = new WidgetButtonImage(22 + (column * 42), 55 + (line * 42), 30, 30, 1, Color.gray.getRGB(), application.getIcon()) {
+                WidgetButtonImage widgetButtonImage = new WidgetButtonImage(getPhoneManager(), 22 + (column * 42), 55 + (line * 42), 30, 30, 1, Color.gray.getRGB(), application.getIcon()) {
                     @Override
                     public void onUse() {
-                            PhoneManager.getInstance().setCurrentApplication(application);
+                        getPhoneManager().setCurrentApplication(application);
                     }
                 };
 
@@ -41,7 +41,7 @@ public class MenuApplication extends Application {
 
     @Override
     public void render(ScaledResolution resolution) {
-        PhoneGraphicUtil.drawTopBar(resolution);
+        PhoneGraphicUtil.drawTopBar(getPhoneManager(), resolution);
         for(PhoneWidget widget : getPhoneWidgets()){
             widget.onRender(resolution);
         }

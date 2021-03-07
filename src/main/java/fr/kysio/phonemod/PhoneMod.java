@@ -55,38 +55,6 @@ public class PhoneMod {
         if(event.getSide() == Side.CLIENT) {
             MinecraftForge.EVENT_BUS.register(new PhoneEvents());
             KeyBindings.registerKeyBindings();
-            PhoneManager phoneManager = new PhoneManager();
-            phoneManager.addApplication(new SettingsApplication());
-            phoneManager.addApplication(new SettingsApplication());
-            phoneManager.addApplication(new SettingsApplication());
-            phoneManager.addApplication(new SettingsApplication());
-
-            phoneManager.addApplication(new SettingsApplication());
-            phoneManager.addApplication(new SettingsApplication());
-            phoneManager.addApplication(new SettingsApplication());
-            phoneManager.addApplication(new SettingsApplication());
-
-            phoneManager.addApplication(new SettingsApplication());
-            phoneManager.addApplication(new SettingsApplication());
-            phoneManager.addApplication(new SettingsApplication());
-            phoneManager.addApplication(new SettingsApplication());
-
-            phoneManager.addApplication(new SettingsApplication());
-            phoneManager.addApplication(new SettingsApplication());
-            phoneManager.addApplication(new SettingsApplication());
-            phoneManager.addApplication(new SettingsApplication());
-
-            phoneManager.addApplication(new SettingsApplication());
-            phoneManager.addApplication(new SettingsApplication());
-            phoneManager.addApplication(new SettingsApplication());
-            phoneManager.addApplication(new SettingsApplication());
-
-            phoneManager.addApplication(new SettingsApplication());
-            phoneManager.addApplication(new SettingsApplication());
-            phoneManager.addApplication(new SettingsApplication());
-            phoneManager.addApplication(new SettingsApplication());
-
-            phoneManager.addApplication(new MenuApplication());
         }
     }
 

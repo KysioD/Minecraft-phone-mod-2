@@ -1,6 +1,7 @@
 package fr.kysio.phonemod.api.widgets;
 
 import fr.kysio.phonemod.api.PhoneGraphicUtil;
+import fr.kysio.phonemod.api.PhoneManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -14,15 +15,15 @@ public abstract class WidgetButtonImage extends WidgetButton{
 
     private ResourceLocation icon;
 
-    public WidgetButtonImage(int x, int y, int width, int height, float scale, int selectedColor, ResourceLocation icon) {
-        super(x, y, width, height, scale, Color.TRANSLUCENT, Color.TRANSLUCENT, selectedColor, "");
+    public WidgetButtonImage(PhoneManager phoneManager, int x, int y, int width, int height, float scale, int selectedColor, ResourceLocation icon) {
+        super(phoneManager, x, y, width, height, scale, Color.TRANSLUCENT, Color.TRANSLUCENT, selectedColor, "");
         this.icon = icon;
     }
 
     @Override
     public void onRender(ScaledResolution resolution) {
 
-        float phoneScale = PhoneGraphicUtil.getPhoneScale();
+        float phoneScale = PhoneGraphicUtil.getPhoneScale(getPhoneManager());
         int screenX = (int) (((resolution.getScaledWidth() / (phoneScale)) - 210)/getScale());
         int screenY = (int) (((resolution.getScaledHeight() / (phoneScale)) - 360)/getScale());
 
