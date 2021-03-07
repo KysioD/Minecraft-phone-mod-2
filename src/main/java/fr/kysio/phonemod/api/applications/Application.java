@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nullable;
 
-public abstract class Application {
+public class Application {
 
     private final String name;
     private final String description;
@@ -41,7 +41,12 @@ public abstract class Application {
         return icon;
     }
 
-    public abstract void render(ScaledResolution resolution);
+    public void render(ScaledResolution resolution){
+
+        for(PhoneWidget widget : getPhoneWidgets()){
+            widget.onRender(resolution);
+        }
+    }
 
     public void keyPressed() {
         PhoneWidget nextButton = null;

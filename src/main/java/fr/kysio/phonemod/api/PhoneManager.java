@@ -33,10 +33,6 @@ public class PhoneManager {
     public PhoneManager(ItemStack phone) {
         this.phone = phone;
 
-        this.addApplication(new SettingsApplication(this));
-
-        this.addApplication(new MenuApplication(this));
-
         NBTTagCompound nbt;
         if(phone.hasTagCompound()){
             nbt = phone.getTagCompound();
@@ -45,10 +41,13 @@ public class PhoneManager {
             nbt.setFloat("s_scale", 0.5f); //s_settingName -> a phone setting
             nbt.setString("current_app", "");
             nbt.setBoolean("locked", true);
-            nbt.setString("s_sim", "");
+            nbt.setString("s_sim", "any sim card");
         }
 
         phone.setTagCompound(nbt);
+
+        this.addApplication(new SettingsApplication(this));
+        this.addApplication(new MenuApplication(this));
     }
     /**
      * Get the applications list

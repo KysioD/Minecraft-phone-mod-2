@@ -42,9 +42,7 @@ public class MenuApplication extends Application {
     @Override
     public void render(ScaledResolution resolution) {
         PhoneGraphicUtil.drawTopBar(getPhoneManager(), resolution);
-        for(PhoneWidget widget : getPhoneWidgets()){
-            widget.onRender(resolution);
-        }
+        super.render(resolution);
     }
 
     @Override
