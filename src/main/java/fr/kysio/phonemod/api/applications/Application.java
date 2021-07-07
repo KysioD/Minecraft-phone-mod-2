@@ -50,42 +50,20 @@ public class Application {
 
     public void keyPressed() {
         PhoneWidget nextButton = null;
-        if (KeyBindings.DOWN_KEY.isPressed()) {
-            int currentY = (selectedWidget != null && selectedWidget instanceof WidgetButton) ? selectedWidget.getY() : 0;
-            for (PhoneWidget widget : phoneWidgets) {
-                if (widget != selectedWidget) {
-                    if (widget.getY() != currentY) {
-                        {
-                            if (widget.getY() >= currentY) {
-                                if (nextButton != null) {
-                                    if (widget.getY() < nextButton.getY()) {
+            if (KeyBindings.DOWN_KEY.isPressed()) {
+                int currentY = (selectedWidget != null && selectedWidget instanceof WidgetButton) ? selectedWidget.getY() : 0;
+                for (PhoneWidget widget : phoneWidgets) {
+                    if (widget != selectedWidget) {
+                        if (widget.getY() != currentY) {
+                            {
+                                if (widget.getY() >= currentY) {
+                                    if (nextButton != null) {
+                                        if (widget.getY() < nextButton.getY()) {
+                                            nextButton = widget;
+                                        }
+                                    } else {
                                         nextButton = widget;
                                     }
-                                } else {
-                                    nextButton = widget;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            if (selectedWidget != null) selectedWidget.setSelected(false);
-            if (nextButton != null) nextButton.setSelected(true);
-            selectedWidget = nextButton;
-
-        }else if(KeyBindings.UP_KEY.isPressed()) {
-            int currentY = (selectedWidget != null && selectedWidget instanceof WidgetButton) ? selectedWidget.getY() : 500;
-            for (PhoneWidget widget : phoneWidgets) {
-                if (widget != selectedWidget) {
-                    if (widget.getY() != currentY) {
-                        {
-                            if (widget.getY() <= currentY) {
-                                if (nextButton != null) {
-                                    if (widget.getY() > nextButton.getY()) {
-                                        nextButton = widget;
-                                    }
-                                } else {
-                                    nextButton = widget;
                                 }
                             }
                         }
@@ -94,56 +72,80 @@ public class Application {
                 if (selectedWidget != null) selectedWidget.setSelected(false);
                 if (nextButton != null) nextButton.setSelected(true);
                 selectedWidget = nextButton;
-            }
-        }else if(KeyBindings.RIGHT_KEY.isPressed()){
-            int currentY = (selectedWidget != null && selectedWidget instanceof WidgetButton) ? selectedWidget.getY() : 0;
-            int currentX = (selectedWidget != null && selectedWidget instanceof WidgetButton) ? selectedWidget.getX() : 0;
-            for (PhoneWidget widget : phoneWidgets) {
-                if (widget != selectedWidget) {
-                    if (widget.getX() != currentX && widget.getY() == currentY) {
-                        {
-                            if (widget.getX() >= currentX) {
-                                if (nextButton != null) {
-                                    if (widget.getX() < nextButton.getX()) {
+
+            } else if (KeyBindings.UP_KEY.isPressed()) {
+                int currentY = (selectedWidget != null && selectedWidget instanceof WidgetButton) ? selectedWidget.getY() : 500;
+                for (PhoneWidget widget : phoneWidgets) {
+                    if (widget != selectedWidget) {
+                        if (widget.getY() != currentY) {
+                            {
+                                if (widget.getY() <= currentY) {
+                                    if (nextButton != null) {
+                                        if (widget.getY() > nextButton.getY()) {
+                                            nextButton = widget;
+                                        }
+                                    } else {
                                         nextButton = widget;
                                     }
-                                } else {
-                                    nextButton = widget;
+                                }
+                            }
+                        }
+                    }
+                    if (selectedWidget != null) selectedWidget.setSelected(false);
+                    if (nextButton != null) nextButton.setSelected(true);
+                    selectedWidget = nextButton;
+                }
+            } else if (KeyBindings.RIGHT_KEY.isPressed()) {
+                int currentY = (selectedWidget != null && selectedWidget instanceof WidgetButton) ? selectedWidget.getY() : 0;
+                int currentX = (selectedWidget != null && selectedWidget instanceof WidgetButton) ? selectedWidget.getX() : 0;
+                for (PhoneWidget widget : phoneWidgets) {
+                    if (widget != selectedWidget) {
+                        if (widget.getX() != currentX && widget.getY() == currentY) {
+                            {
+                                if (widget.getX() >= currentX) {
+                                    if (nextButton != null) {
+                                        if (widget.getX() < nextButton.getX()) {
+                                            nextButton = widget;
+                                        }
+                                    } else {
+                                        nextButton = widget;
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            }
-            if (selectedWidget != null) selectedWidget.setSelected(false);
-            if (nextButton != null) nextButton.setSelected(true);
-            selectedWidget = nextButton;
+                if (selectedWidget != null) selectedWidget.setSelected(false);
+                if (nextButton != null) nextButton.setSelected(true);
+                selectedWidget = nextButton;
 
-        }else if(KeyBindings.LEFT_KEY.isPressed()){
-            int currentY = (selectedWidget != null && selectedWidget instanceof WidgetButton) ? selectedWidget.getY() : 0;
-            int currentX = (selectedWidget != null && selectedWidget instanceof WidgetButton) ? selectedWidget.getX() : 0;
-            for (PhoneWidget widget : phoneWidgets) {
-                if (widget != selectedWidget) {
-                    if (widget.getX() != currentX && widget.getY() == currentY) {
-                        {
-                            if (widget.getX() <= currentX) {
-                                if (nextButton != null) {
-                                    if (widget.getX() > nextButton.getX()) {
+            } else if (KeyBindings.LEFT_KEY.isPressed()) {
+                int currentY = (selectedWidget != null && selectedWidget instanceof WidgetButton) ? selectedWidget.getY() : 0;
+                int currentX = (selectedWidget != null && selectedWidget instanceof WidgetButton) ? selectedWidget.getX() : 0;
+                for (PhoneWidget widget : phoneWidgets) {
+                    if (widget != selectedWidget) {
+                        if (widget.getX() != currentX && widget.getY() == currentY) {
+                            {
+                                if (widget.getX() <= currentX) {
+                                    if (nextButton != null) {
+                                        if (widget.getX() > nextButton.getX()) {
+                                            nextButton = widget;
+                                        }
+                                    } else {
                                         nextButton = widget;
                                     }
-                                } else {
-                                    nextButton = widget;
                                 }
                             }
                         }
                     }
                 }
-            }
-            if (selectedWidget != null) selectedWidget.setSelected(false);
-            if (nextButton != null) nextButton.setSelected(true);
-            selectedWidget = nextButton;
+                if (selectedWidget != null) selectedWidget.setSelected(false);
+                if (nextButton != null) nextButton.setSelected(true);
+                selectedWidget = nextButton;
 
-        }else if(KeyBindings.UNLOCK_KEY.isPressed()){
+            }
+
+        if(KeyBindings.UNLOCK_KEY.isPressed()){
             if(selectedWidget != null) selectedWidget.onUse();
         }
     }

@@ -6,7 +6,6 @@ import fr.kysio.phonemod.api.PhoneManager;
 import fr.kysio.phonemod.api.applications.Application;
 import fr.kysio.phonemod.client.KeyBindings;
 import fr.kysio.phonemod.items.PhoneItems;
-import fr.kysio.phonemod.network.PlayerOpenPhonePacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,7 +16,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.Sys;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -51,7 +49,6 @@ public class PhoneEvents {
 
             if (!opened) {
                 opened = true;
-                PhoneMod.network.sendToServer(new PlayerOpenPhonePacket(player));
             }
 
             PhoneGraphicUtil.drawBackground(phoneManager, resolution);
@@ -103,7 +100,6 @@ public class PhoneEvents {
                 if (application.getName() == "menu" && KeyBindings.BACK_KEY.isPressed()) phoneManager.setLocked(true);
             } else {
                 if (KeyBindings.UNLOCK_KEY.isPressed()) {
-                    System.out.println("UNLOCK");
                     Application menu = phoneManager.getApplication("menu");
                     if (menu != null) {
                         phoneManager.setCurrentApplication(menu);

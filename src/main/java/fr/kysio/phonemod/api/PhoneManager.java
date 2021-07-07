@@ -2,25 +2,16 @@ package fr.kysio.phonemod.api;
 
 import fr.kysio.phonemod.PhoneMod;
 import fr.kysio.phonemod.api.applications.Application;
-import fr.kysio.phonemod.network.PlayerCloseAppPacket;
-import fr.kysio.phonemod.network.PlayerOpenAppPacket;
 import fr.kysio.phonemod.phone.applications.MenuApplication;
 import fr.kysio.phonemod.phone.applications.SettingsApplication;
-import fr.kysio.phonemod.sqript.events.OpenPhoneEvent;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.Sys;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 @SideOnly(Side.CLIENT)
 public class PhoneManager {
@@ -41,7 +32,6 @@ public class PhoneManager {
             nbt.setFloat("s_scale", 0.5f); //s_settingName -> a phone setting
             nbt.setString("current_app", "");
             nbt.setBoolean("locked", true);
-            nbt.setString("s_sim", "any sim card");
         }
 
         phone.setTagCompound(nbt);
@@ -117,7 +107,6 @@ public class PhoneManager {
      * @param currentApplication application in use
      */
     public void setCurrentApplication(Application currentApplication) {
-        if(getCurrentApplication() != null) PhoneMod.network.sendToServer(new PlayerCloseAppPacket(this.getCurrentApplication().getName(), Minecraft.getMinecraft().player));
         System.out.println("phone has compound : "+phone.hasTagCompound());
         if(phone.hasTagCompound()){
             NBTTagCompound nbt = phone.getTagCompound();
@@ -125,8 +114,6 @@ public class PhoneManager {
             nbt.setString("current_app", currentApplication.getName());
             phone.setTagCompound(nbt);
         }
-
-        PhoneMod.network.sendToServer(new PlayerOpenAppPacket(this.getCurrentApplication().getName(), Minecraft.getMinecraft().player));
     }
 
     /**
