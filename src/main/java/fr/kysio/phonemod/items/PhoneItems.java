@@ -12,6 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class PhoneItems {
 
     public static final Item PHONE = new ItemPhone();
+    public static final Item SHIELD = new ShieldCustom();
 
     public static void setItemName(Item item, String name) {
         item.setRegistryName(PhoneMod.MODID, name).setTranslationKey(name);

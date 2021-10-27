@@ -9,8 +9,7 @@ public class RegistringHandler {
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
-        event.getRegistry().registerAll(PhoneItems.PHONE);
-
+        event.getRegistry().registerAll(PhoneItems.PHONE, PhoneItems.SHIELD);
     }
 
 }
